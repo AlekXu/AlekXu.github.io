@@ -209,8 +209,38 @@
 <li>在SCL为高电平时，SDA出现上升沿，即为I2C的STOP信号。可以理解为跳出坑外，停止通信。</li>
 <li>SCL信号是有主机控制的，SDA的控制权由主机和从机分时控制。</li>
 </ul>
-<p>理解了以上几点，那么I2C的通讯协议基本是掌握了。</p>
-<h2 id="4-I2C从机软件实现思路"><a href="#4-I2C从机软件实现思路" class="headerlink" title="4. I2C从机软件实现思路"></a>4. I2C从机软件实现思路</h2><h2 id="5-I2C从机代码"><a href="#5-I2C从机代码" class="headerlink" title="5. I2C从机代码"></a>5. I2C从机代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#inclde <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"hello world!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>理解了以上几点，那么I2C的通讯协议基本是掌握了。下面这两幅图是I2C主机写从机和读从机的总线控制的示意图。<br>第一幅图为主机向从机写数据的总线控制示意图，写数据时，传输方向未发生变化。<br><img src="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_3.jpg?raw=true" alt="i2c_3"><br>第二幅图为主机读从机数据的总线控制示意图，在读数据时，主机先向从机发送地址，然后从机向主机发送数据，传输方向发生变化。<br><img src="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_4.jpg?raw=true" alt="i2c_4"></p>
+<h2 id="4-I2C从机软件实现思路"><a href="#4-I2C从机软件实现思路" class="headerlink" title="4. I2C从机软件实现思路"></a>4. I2C从机软件实现思路</h2><p>在使用STM32模拟I2C从机时，查阅了很多关于模拟从机的资料，很多人说使用中断的方式可能无法采集高速I2C通信时的SCL信号，但是我在TI的一个文档中找到了使用软件模拟I2C从机即是使用中断实现的，TI使用两块MSP430单片机，一块作为I2C的主机，另一块作为从机。TI在设计文档中这么写道：</p>
+<blockquote>
+<p><strong>In the software slave I2C example code, MCLK frequency is set at 8 MHz. With 8-MHz MCLK, software slave I2C can achieve 100-kHz SCL clock frequency using assembly code and 43-kHz SCL clock frequency using C code. Higher SCL clock frequency can be achieved with higher frequency MCLK. The FRAM memory size for the C code and the assembly code is different.</strong></p>
+</blockquote>
+<p>即以8MHZ的主时钟，以汇编写得到代码，从机可以实现100kHZ的SCL时钟频率，以C语言写的代码，可以实现43KHZ的SCL时钟频率。</p>
+<p>所以，对于72MHZ时钟频率的STM32单片机来说，使用中断应该可以实现快速的I2C通讯。下面就介绍一下TI使用中断实现软件模拟I2C从机的思路。<br>首先，TI使用了SDA和SCL两个中断，在中断中又使用状态机的方法，实现对I2C通信状态的分解。</p>
+<table>
+<thead>
+<tr>
+<th>SDA中断</th>
+<th>判断START状态和STOP状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SCL中断</td>
+<td>根据SCL上升沿和下降沿中断，进入I2C_State下，处理不同的任务</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-I2C从机代码"><a href="#5-I2C从机代码" class="headerlink" title="5. I2C从机代码"></a>5. I2C从机代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#inclde <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"hello world!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参考内容：</p>
+<ol>
+<li><a href="https://blog.csdn.net/triv2009/article/details/51898987" target="_blank" rel="noopener">https://blog.csdn.net/triv2009/article/details/51898987</a></li>
+<li><a href="http://blog.muumlover.com/2017/08/PIC%E5%8D%95%E7%89%87%E6%9C%BA%E6%A8%A1%E6%8B%9FIIC%E4%BB%8E%E6%9C%BA%E9%80%9A%E8%AE%AF.html" target="_blank" rel="noopener">http://blog.muumlover.com/2017/08/PIC%E5%8D%95%E7%89%87%E6%9C%BA%E6%A8%A1%E6%8B%9FIIC%E4%BB%8E%E6%9C%BA%E9%80%9A%E8%AE%AF.html</a></li>
+<li>TI公司:slaa703a.pdf</li>
+<li>周立功：I2C总线规范</li>
+</ol>
+</blockquote>
+
       
 
       
@@ -588,15 +618,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">嵌入式,STM32,I2C Slave</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">blog,hexo,github</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">markdown,blog,传图</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">嵌入式,STM32,I2C Slave</a>
               </li>
             
             <div class="clearfix"></div>
