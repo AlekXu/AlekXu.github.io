@@ -199,7 +199,18 @@
 <h2 id="2-I2C硬件接口"><a href="#2-I2C硬件接口" class="headerlink" title="2. I2C硬件接口"></a>2. I2C硬件接口</h2><p>I2C一共有2根线：SCL时钟线、SDA数据线。<br>其标准的与从机设备连接的图片如图所示：</p>
 <p><img src="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/iic_1.jpg?raw=true" alt="i2c硬件连接图"></p>
 <p>从图中可以看到，i2c的SCL和SDA都通过上拉电阻连接到+VDD，而连接在总线上的器件采用开漏输出的方式，该方式只能输出低电平，浮空状态为高阻态，必须通过外部的上拉电阻把总线电平拉高，所以i2c总线空闲时，总线电平为高电平。</p>
-<h2 id="3-I2C协议介绍"><a href="#3-I2C协议介绍" class="headerlink" title="3. I2C协议介绍"></a>3. I2C协议介绍</h2><h2 id="4-I2C从机软件实现思路"><a href="#4-I2C从机软件实现思路" class="headerlink" title="4. I2C从机软件实现思路"></a>4. I2C从机软件实现思路</h2><h2 id="5-I2C从机代码"><a href="#5-I2C从机代码" class="headerlink" title="5. I2C从机代码"></a>5. I2C从机代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#inclde <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"hello world!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-I2C协议介绍"><a href="#3-I2C协议介绍" class="headerlink" title="3. I2C协议介绍"></a>3. I2C协议介绍</h2><p>I2C的协议，说白了就是规定数据如何传输的，其时序图如下图所示。</p>
+<p><img src="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_2.jpg?raw=true" alt="i2c时序图"><br>从上图中可以看到I2C通讯中关键的几点：</p>
+<ul>
+<li>在SCL高电平时，SDA出现下降沿，即为I2C的start信号。可以理解为跳入坑中，开始通信。</li>
+<li>在数据传输中，SDA线上的数据在SCL为高电平时必须保持稳定，只有在SCL为低电平时，SDA线上的数据才允许改变。</li>
+<li>发送到SDA线上的每个字节必须为8位，首先传输的是数据的最高位（MSB）。</li>
+<li>在主机向从机发送地址时，若是该地址和从机地址相同，则从机应拉低SDA总线，发送ACK信号。</li>
+<li>在SCL为高电平时，SDA出现上升沿，即为I2C的STOP信号。可以理解为跳出坑外，停止通信。</li>
+<li>SCL信号是有主机控制的，SDA的控制权由主机和从机分时控制。</li>
+</ul>
+<p>理解了以上几点，那么I2C的通讯协议基本是掌握了。</p>
+<h2 id="4-I2C从机软件实现思路"><a href="#4-I2C从机软件实现思路" class="headerlink" title="4. I2C从机软件实现思路"></a>4. I2C从机软件实现思路</h2><h2 id="5-I2C从机代码"><a href="#5-I2C从机代码" class="headerlink" title="5. I2C从机代码"></a>5. I2C从机代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#inclde <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"hello world!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
       
@@ -577,15 +588,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">嵌入式,STM32,I2C Slave</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">blog,hexo,github</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">markdown,blog,传图</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">嵌入式,STM32,I2C Slave</a>
               </li>
             
             <div class="clearfix"></div>
