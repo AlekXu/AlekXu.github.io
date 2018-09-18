@@ -16,10 +16,12 @@
 <meta property="og:site_name" content="AlekXu的博客">
 <meta property="og:description" content="软件模拟I2C从机[TOC] 工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！ 1. I2C总线介绍在消费者电子电讯和工业电子中看上去不相关的设计里经常有很多相似的地方例如几乎每个系统都包括：  一些智能控制，通常是一个单">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-09-18T08:02:00.973Z">
+<meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/iic_1.jpg?raw=true">
+<meta property="og:updated_time" content="2018-09-18T08:24:24.405Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="软件模拟I2C从机">
 <meta name="twitter:description" content="软件模拟I2C从机[TOC] 工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！ 1. I2C总线介绍在消费者电子电讯和工业电子中看上去不相关的设计里经常有很多相似的地方例如几乎每个系统都包括：  一些智能控制，通常是一个单">
+<meta name="twitter:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/iic_1.jpg?raw=true">
   
     <link rel="alternative" href="/atom.xml" title="AlekXu的博客" type="application/atom+xml">
   
@@ -197,6 +199,8 @@
 <li>连接到相同总线的IC数量只受到总线的最大电容400pF限制</li>
 </ul>
 <h2 id="2-I2C硬件接口"><a href="#2-I2C硬件接口" class="headerlink" title="2. I2C硬件接口"></a>2. I2C硬件接口</h2><p>I2C一共有2根线：SCL时钟线、SDA数据线。<br>其标准的与从机设备连接的图片如图所示：</p>
+<p><img src="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/iic_1.jpg?raw=true" alt="i2c硬件连接图"></p>
+<p>从图中可以看到，i2c的SCL和SDA都通过上拉电阻连接到+VDD，而连接在总线上的器件采用开漏输出的方式，该方式只能输出低电平，浮空状态为高阻态，必须通过外部的上拉电阻把总线电平拉高，所以i2c总线空闲时，总线电平为高电平。</p>
 <h2 id="3-I2C协议介绍"><a href="#3-I2C协议介绍" class="headerlink" title="3. I2C协议介绍"></a>3. I2C协议介绍</h2><h2 id="4-I2C从机软件实现思路"><a href="#4-I2C从机软件实现思路" class="headerlink" title="4. I2C从机软件实现思路"></a>4. I2C从机软件实现思路</h2><h2 id="5-I2C从机代码"><a href="#5-I2C从机代码" class="headerlink" title="5. I2C从机代码"></a>5. I2C从机代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#inclde <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"hello world!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
@@ -433,11 +437,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">嵌入式,STM32,I2C Slave</a>
+                <a href="javascript:void(0)" class="js-tag color2">markdown,blog,传图</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">markdown,blog,传图</a>
+                <a href="javascript:void(0)" class="js-tag color5">嵌入式,STM32,I2C Slave</a>
               </li>
             
             <div class="clearfix"></div>
