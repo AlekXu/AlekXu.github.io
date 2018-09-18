@@ -20,7 +20,8 @@
 <meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_2.jpg?raw=true">
 <meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_3.jpg?raw=true">
 <meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_4.jpg?raw=true">
-<meta property="og:updated_time" content="2018-09-18T09:20:39.530Z">
+<meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_6.jpg?raw=true">
+<meta property="og:updated_time" content="2018-09-18T09:24:59.976Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="软件模拟I2C从机">
 <meta name="twitter:description" content="软件模拟I2C从机[TOC] 工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！ 1. I2C总线介绍在消费者电子电讯和工业电子中看上去不相关的设计里经常有很多相似的地方例如几乎每个系统都包括：  一些智能控制，通常是一个单">
@@ -235,6 +236,7 @@
 </tr>
 </tbody>
 </table>
+<p>其分为14个不同的状态，下图为其14个状态及每种状态的描述。<br><img src="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_6.jpg?raw=true" alt="i2c_state"></p>
 <h2 id="5-I2C从机代码"><a href="#5-I2C从机代码" class="headerlink" title="5. I2C从机代码"></a>5. I2C从机代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#inclde <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"hello world!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>参考内容：</p>
