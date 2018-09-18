@@ -159,19 +159,19 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-软件模拟I2C从机-md" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-软件模拟I2C从机" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/12/软件模拟I2C从机-md/">软件模拟I2C从机.md</a>
+      <a class="article-title" href="/2018/09/12/软件模拟I2C从机/">软件模拟I2C从机</a>
     </h1>
   
 
         
-        <a href="/2018/09/12/软件模拟I2C从机-md/" class="archive-article-date">
+        <a href="/2018/09/12/软件模拟I2C从机/" class="archive-article-date">
   	<time datetime="2018-09-12T06:08:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-12</time>
 </a>
         
@@ -179,9 +179,25 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="STM32软件模拟i2c从机"><a href="#STM32软件模拟i2c从机" class="headerlink" title="STM32软件模拟i2c从机"></a>STM32软件模拟i2c从机</h2><p>工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！</p>
-<h3 id="1-I2C硬件接口"><a href="#1-I2C硬件接口" class="headerlink" title="1. I2C硬件接口"></a>1. I2C硬件接口</h3><p>I2C一共有2根线：SCL时钟线、SDA数据线。<br>其标准的与从机设备连接的图片如图所示：</p>
-<h3 id="2-I2C协议介绍"><a href="#2-I2C协议介绍" class="headerlink" title="2. I2C协议介绍"></a>2. I2C协议介绍</h3>
+        <h1 id="软件模拟I2C从机"><a href="#软件模拟I2C从机" class="headerlink" title="软件模拟I2C从机"></a>软件模拟I2C从机</h1><p>[TOC]</p>
+<p>工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！</p>
+<h2 id="1-I2C总线介绍"><a href="#1-I2C总线介绍" class="headerlink" title="1. I2C总线介绍"></a>1. I2C总线介绍</h2><p>在消费者电子电讯和工业电子中看上去不相关的设计里经常有很多相似的地方例如几乎每个系统都包括：</p>
+<ul>
+<li>一些智能控制，通常是一个单片的微控制器</li>
+<li>通用电路，例如LCD驱动、远程I/O口、RAM、EEPROM或数据转换器</li>
+<li>面向应用的电路，比如音频拨号电话的DTMF发生器等</li>
+</ul>
+<p>为了使这些相似之处对系统设计者和器件厂商都得益，而且使硬件效益最大，电路最简单，<strong>Philips</strong>公司开发了一个简单的双向两线总线，实现有效的IC之间控制。这个总线就成为Inter IC或I2C总线。<br>下面是I2C总线的一些特征：</p>
+<ul>
+<li>只要求两条总线线路；一条串行数据线SDA，一条串行时钟线SCL</li>
+<li>每个连接到总线的器件都可以通过唯一的地址和一直存在的简单的主机/从机关系软件设定地址，主机可以作为主机发送器或主机接收器</li>
+<li>它是一个真正的多主机总线，如果两个或更多主机同时初始化数据传输可以通过冲突检测和仲裁防止数据被破坏</li>
+<li>串行的8位双向数据传输位速率在标准模式下可达100kbit/s，快速模式下可达400kbit/s，高速模式下可达3.4Mbit/s</li>
+<li>片上的滤波器可以滤去总线数据线上的毛刺波，保证数据完整</li>
+<li>连接到相同总线的IC数量只受到总线的最大电容400pF限制</li>
+</ul>
+<h2 id="2-I2C硬件接口"><a href="#2-I2C硬件接口" class="headerlink" title="2. I2C硬件接口"></a>2. I2C硬件接口</h2><p>I2C一共有2根线：SCL时钟线、SDA数据线。<br>其标准的与从机设备连接的图片如图所示：</p>
+<h2 id="3-I2C协议介绍"><a href="#3-I2C协议介绍" class="headerlink" title="3. I2C协议介绍"></a>3. I2C协议介绍</h2><h2 id="4-I2C从机软件实现思路"><a href="#4-I2C从机软件实现思路" class="headerlink" title="4. I2C从机软件实现思路"></a>4. I2C从机软件实现思路</h2><h2 id="5-I2C从机代码"><a href="#5-I2C从机代码" class="headerlink" title="5. I2C从机代码"></a>5. I2C从机代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#inclde <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"hello world!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
       
@@ -194,7 +210,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">嵌入式</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">嵌入式,STM32,I2C Slave</a>
         		</li>
       		
 		</ul>
@@ -204,7 +220,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/12/软件模拟I2C从机-md/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/09/12/软件模拟I2C从机/">展开全文 >></a>
         </p>
       
 
@@ -563,11 +579,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">markdown,blog,传图</a>
+                <a href="javascript:void(0)" class="js-tag color5">嵌入式,STM32,I2C Slave</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">嵌入式</a>
+                <a href="javascript:void(0)" class="js-tag color2">markdown,blog,传图</a>
               </li>
             
             <div class="clearfix"></div>
