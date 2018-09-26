@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>软件模拟I2C从机 | AlekXu的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="软件模拟I2C从机[TOC] 工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！ 1. I2C总线介绍在消费者电子电讯和工业电子中看上去不相关的设计里经常有很多相似的地方例如几乎每个系统都包括：  一些智能控制，通常是一个单">
+  <meta name="description" content="[TOC] 工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！ 1. I2C总线介绍在消费者电子电讯和工业电子中看上去不相关的设计里经常有很多相似的地方例如几乎每个系统都包括：  一些智能控制，通常是一个单片的微控制器 通用">
 <meta name="keywords" content="嵌入式,STM32,I2C Slave">
 <meta property="og:type" content="article">
 <meta property="og:title" content="软件模拟I2C从机">
 <meta property="og:url" content="http://yoursite.com/2018/09/12/软件模拟I2C从机/index.html">
 <meta property="og:site_name" content="AlekXu的博客">
-<meta property="og:description" content="软件模拟I2C从机[TOC] 工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！ 1. I2C总线介绍在消费者电子电讯和工业电子中看上去不相关的设计里经常有很多相似的地方例如几乎每个系统都包括：  一些智能控制，通常是一个单">
+<meta property="og:description" content="[TOC] 工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！ 1. I2C总线介绍在消费者电子电讯和工业电子中看上去不相关的设计里经常有很多相似的地方例如几乎每个系统都包括：  一些智能控制，通常是一个单片的微控制器 通用">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/iic_1.jpg?raw=true">
 <meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_2.jpg?raw=true">
@@ -22,10 +22,10 @@
 <meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_4.jpg?raw=true">
 <meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_6.jpg?raw=true">
 <meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_7.jpg?raw=true">
-<meta property="og:updated_time" content="2018-09-26T04:32:59.057Z">
+<meta property="og:updated_time" content="2018-09-26T04:34:51.950Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="软件模拟I2C从机">
-<meta name="twitter:description" content="软件模拟I2C从机[TOC] 工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！ 1. I2C总线介绍在消费者电子电讯和工业电子中看上去不相关的设计里经常有很多相似的地方例如几乎每个系统都包括：  一些智能控制，通常是一个单">
+<meta name="twitter:description" content="[TOC] 工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！ 1. I2C总线介绍在消费者电子电讯和工业电子中看上去不相关的设计里经常有很多相似的地方例如几乎每个系统都包括：  一些智能控制，通常是一个单片的微控制器 通用">
 <meta name="twitter:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/iic_1.jpg?raw=true">
   
     <link rel="alternative" href="/atom.xml" title="AlekXu的博客" type="application/atom+xml">
@@ -186,7 +186,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="软件模拟I2C从机"><a href="#软件模拟I2C从机" class="headerlink" title="软件模拟I2C从机"></a>软件模拟I2C从机</h1><p>[TOC]</p>
+        <p>[TOC]</p>
 <p>工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！</p>
 <h2 id="1-I2C总线介绍"><a href="#1-I2C总线介绍" class="headerlink" title="1. I2C总线介绍"></a>1. I2C总线介绍</h2><p>在消费者电子电讯和工业电子中看上去不相关的设计里经常有很多相似的地方例如几乎每个系统都包括：</p>
 <ul>
