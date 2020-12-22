@@ -19,7 +19,8 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/AlekXu/AlekXu.github.io/master/assets/img/qt_1.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/AlekXu/AlekXu.github.io/master/assets/img/qt_3.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AlekXu/AlekXu.github.io/master/assets/img/qt_2.png">
-<meta property="og:updated_time" content="2020-12-22T09:32:10.425Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/AlekXu/AlekXu.github.io/master/assets/img/qt_4.png">
+<meta property="og:updated_time" content="2020-12-22T09:41:31.966Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux下qt界面打包deb">
 <meta name="twitter:description" content="1、使用linuxdeployqt打包qt linuxdeployqt下载及安装 linuxdeployqt使用   2、使用dpkg打包生成deb包   最近在linux下做了个关于qt界面的应用程序，需要打包生成deb安装，查阅了很多资料，在此整理记录一下。">
@@ -218,11 +219,11 @@
 <ul>
 <li>新建app_deb文件夹（其它文件名字也可以），在该目录下创建软件需要安装的路径，<code>eg：/usr/local/src/AppName</code>。</li>
 <li>将1步骤中文件拷贝到新创建的目录（<code>/usr/local/src/AppName</code>）下。</li>
-<li><p>在app_deb文件夹下创建DEBIAN文件夹（文件名必须为DEBIAN），并在其中创建console文件。</p>
+<li><p>在app_deb文件夹下创建DEBIAN文件夹（文件名必须为DEBIAN），并在其中创建console文件，console文件内容如下：</p>
   <figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">package: AppName </span><br><span class="line">Version: 1.0.1</span><br><span class="line">Architecture: i386</span><br><span class="line">Depends:</span><br><span class="line">Installed-Size: 512</span><br><span class="line">Maintainer: xxx</span><br><span class="line">Description: AppName-deb</span><br></pre></td></tr></table></figure>
+<p>最后的文件目录如下如所示。<br><img src="https://raw.githubusercontent.com/AlekXu/AlekXu.github.io/master/assets/img/qt_4.png" alt="qt_deployqt_2"></p>
 </li>
-<li><p>在app_deb目录下，执行 <code>dpkg -b . AppName.deb</code>命令，即可生成deb包。</p>
-</li>
+<li>在app_deb目录下，执行 <code>dpkg -b . AppName.deb</code>命令，即可生成deb包。</li>
 </ul>
 <p>如果需要设置开机加载脚本等，就需要额外编写脚本放在DEBIAN目录下，DEBIAN下的脚本有以下几种：</p>
 <ul>
@@ -472,11 +473,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">markdown,blog,传图</a>
+                <a href="javascript:void(0)" class="js-tag color4">linux,qt</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">linux,qt</a>
+                <a href="javascript:void(0)" class="js-tag color2">markdown,blog,传图</a>
               </li>
              
               <li class="article-tag-list-item">
