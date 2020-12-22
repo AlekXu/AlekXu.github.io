@@ -8,18 +8,20 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>linux下qt界面打包deb | AlekXu的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1、使用linuxdeployqt打包qt 2、使用dpkg打包生成deb包   最近在linux下做了个关于qt界面的应用程序，需要打包生成deb安装，查阅了很多资料，在此整理记录一下。">
+  <meta name="description" content="1、使用linuxdeployqt打包qt linuxdeployqt下载及安装 linuxdeployqt使用   2、使用dpkg打包生成deb包   最近在linux下做了个关于qt界面的应用程序，需要打包生成deb安装，查阅了很多资料，在此整理记录一下。">
 <meta name="keywords" content="linux,qt">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux下qt界面打包deb">
 <meta property="og:url" content="http://yoursite.com/2020/12/22/linux下qt界面打包deb/index.html">
 <meta property="og:site_name" content="AlekXu的博客">
-<meta property="og:description" content="1、使用linuxdeployqt打包qt 2、使用dpkg打包生成deb包   最近在linux下做了个关于qt界面的应用程序，需要打包生成deb安装，查阅了很多资料，在此整理记录一下。">
+<meta property="og:description" content="1、使用linuxdeployqt打包qt linuxdeployqt下载及安装 linuxdeployqt使用   2、使用dpkg打包生成deb包   最近在linux下做了个关于qt界面的应用程序，需要打包生成deb安装，查阅了很多资料，在此整理记录一下。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-12-22T08:09:09.856Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/AlekXu/AlekXu.github.io/master/assets/img/qt_1.jpg">
+<meta property="og:updated_time" content="2020-12-22T08:34:12.554Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux下qt界面打包deb">
-<meta name="twitter:description" content="1、使用linuxdeployqt打包qt 2、使用dpkg打包生成deb包   最近在linux下做了个关于qt界面的应用程序，需要打包生成deb安装，查阅了很多资料，在此整理记录一下。">
+<meta name="twitter:description" content="1、使用linuxdeployqt打包qt linuxdeployqt下载及安装 linuxdeployqt使用   2、使用dpkg打包生成deb包   最近在linux下做了个关于qt界面的应用程序，需要打包生成deb安装，查阅了很多资料，在此整理记录一下。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/AlekXu/AlekXu.github.io/master/assets/img/qt_1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="AlekXu的博客" type="application/atom+xml">
   
@@ -184,17 +186,30 @@
         <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 <!-- code_chunk_output -->
 <ul>
-<li><a href="#1使用linuxdeployqt打包qt">1、使用linuxdeployqt打包qt</a></li>
+<li><a href="#1使用linuxdeployqt打包qt">1、使用linuxdeployqt打包qt</a><ul>
+<li><a href="#linuxdeployqt下载及安装">linuxdeployqt下载及安装</a></li>
+<li><a href="#linuxdeployqt使用">linuxdeployqt使用</a></li>
+</ul>
+</li>
 <li><a href="#2使用dpkg打包生成deb包">2、使用dpkg打包生成deb包</a></li>
 </ul>
 <!-- /code_chunk_output -->
 <p>最近在linux下做了个关于qt界面的应用程序，需要打包生成deb安装，查阅了很多资料，在此整理记录一下。</p>
 <a id="more"></a>
-<h3><span id="1-shi-yong-linuxdeployqt-da-bao-qt">1、使用linuxdeployqt打包qt</span><a href="#1-shi-yong-linuxdeployqt-da-bao-qt" class="header-anchor">#</a></h3><p>linuxdeployqt是一个linux下qt自动打包的工具，和windows平台的windeployqt用法类似。</p>
+<h2><span id="1-shi-yong-linuxdeployqt-da-bao-qt">1、使用linuxdeployqt打包qt</span><a href="#1-shi-yong-linuxdeployqt-da-bao-qt" class="header-anchor">#</a></h2><h3><span id="linuxdeployqt-xia-zai-ji-an-zhuang">linuxdeployqt下载及安装</span><a href="#linuxdeployqt-xia-zai-ji-an-zhuang" class="header-anchor">#</a></h3><p>linuxdeployqt是一个linux下qt自动打包的工具，和windows平台的windeployqt用法类似。</p>
 <ul>
 <li>下载地址：<a href="https://github.com/probonopd/linuxdeployqt/releases" target="_blank" rel="noopener">https://github.com/probonopd/linuxdeployqt/releases</a></li>
 </ul>
-<h3><span id="2-shi-yong-dpkg-da-bao-sheng-cheng-deb-bao">2、使用dpkg打包生成deb包</span><a href="#2-shi-yong-dpkg-da-bao-sheng-cheng-deb-bao" class="header-anchor">#</a></h3>
+<p><img src="https://raw.githubusercontent.com/AlekXu/AlekXu.github.io/master/assets/img/qt_1.jpg" alt="linuxdeployqt_download"><br>执行如下命令：</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mv linuxdeployqt-x86_64.AppImage linuxdeployqt      #重命名</span><br><span class="line">chmod +x linuxdeployqt</span><br><span class="line">cp linuxdeployqt /usr/local/bin</span><br><span class="line">linuxdeployqt --version                             #检查是否安装成功</span><br></pre></td></tr></table></figure>
+<h3><span id="linuxdeployqt-shi-yong">linuxdeployqt使用</span><a href="#linuxdeployqt-shi-yong" class="header-anchor">#</a></h3><p>linuxdeployqt使用较为简单，使用步骤如下：</p>
+<ul>
+<li>新建一个deploy文件夹，将qt编译出的可执行文件拷贝到该文件夹目录下</li>
+<li>执行 <code>linuxdeployqt xxx(应用程序名) -appimage</code> 命令</li>
+</ul>
+<p>命令执行完成后，即可在目录下，看到如下图所示的文件目录：</p>
+<p><img src="" alt="qt_deployqt"></p>
+<h2><span id="2-shi-yong-dpkg-da-bao-sheng-cheng-deb-bao">2、使用dpkg打包生成deb包</span><a href="#2-shi-yong-dpkg-da-bao-sheng-cheng-deb-bao" class="header-anchor">#</a></h2>
       
 
       
