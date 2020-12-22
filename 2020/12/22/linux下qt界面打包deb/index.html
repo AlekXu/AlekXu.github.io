@@ -17,7 +17,9 @@
 <meta property="og:description" content="1、使用linuxdeployqt打包qt linuxdeployqt下载及安装 linuxdeployqt使用   2、使用dpkg打包生成deb包   最近在linux下做了个关于qt界面的应用程序，需要打包生成deb安装，查阅了很多资料，在此整理记录一下。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/AlekXu/AlekXu.github.io/master/assets/img/qt_1.jpg">
-<meta property="og:updated_time" content="2020-12-22T08:34:12.554Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/AlekXu/AlekXu.github.io/master/assets/img/qt_3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AlekXu/AlekXu.github.io/master/assets/img/qt_2.png">
+<meta property="og:updated_time" content="2020-12-22T09:24:50.828Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux下qt界面打包deb">
 <meta name="twitter:description" content="1、使用linuxdeployqt打包qt linuxdeployqt下载及安装 linuxdeployqt使用   2、使用dpkg打包生成deb包   最近在linux下做了个关于qt界面的应用程序，需要打包生成deb安装，查阅了很多资料，在此整理记录一下。">
@@ -205,11 +207,36 @@
 <h3><span id="linuxdeployqt-shi-yong">linuxdeployqt使用</span><a href="#linuxdeployqt-shi-yong" class="header-anchor">#</a></h3><p>linuxdeployqt使用较为简单，使用步骤如下：</p>
 <ul>
 <li>新建一个deploy文件夹，将qt编译出的可执行文件拷贝到该文件夹目录下</li>
-<li>执行 <code>linuxdeployqt xxx(应用程序名) -appimage</code> 命令</li>
+<li><p>执行 <code>linuxdeployqt xxx(应用程序名) -appimage</code> 命令，出现如下<code>ERROR</code>信息提示时，不用处理即可。</p>
+<p>  <img src="https://raw.githubusercontent.com/AlekXu/AlekXu.github.io/master/assets/img/qt_3.png" alt="qt_deployqt"></p>
+<p>  命令执行结束后，在该目录下会出现如下文件：<br>  <img src="https://raw.githubusercontent.com/AlekXu/AlekXu.github.io/master/assets/img/qt_2.png" alt="qt_deployqt_1"></p>
+</li>
+<li>修改default.desktop文件<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>default.desktop文件为菜单启动项文件，需要将其重命名，并复制到/usr/share/applications下。</span><br><span class="line"><span class="meta">#</span>--appName.desktop</span><br><span class="line">[Desktop Entry]</span><br><span class="line">Version=1.0 #app的版本</span><br><span class="line">Name=appName #app的名字</span><br><span class="line">Comment= this app use for xxx #说明信息 </span><br><span class="line">Exec=/path/to/your/QtApp/appName #app的执行路径，绝对路径</span><br><span class="line">Icon=/path/to/your/app_icon/appName.ico #icon 路径，绝对路径</span><br><span class="line">Terminal=false #是否在终端启动，效果自己试一下就知道了</span><br><span class="line">Type=Application</span><br><span class="line">Categories=Utility;Application;</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<p>命令执行完成后，即可在目录下，看到如下图所示的文件目录：</p>
-<p><img src="" alt="qt_deployqt"></p>
-<h2><span id="2-shi-yong-dpkg-da-bao-sheng-cheng-deb-bao">2、使用dpkg打包生成deb包</span><a href="#2-shi-yong-dpkg-da-bao-sheng-cheng-deb-bao" class="header-anchor">#</a></h2>
+<h2><span id="2-shi-yong-dpkg-da-bao-sheng-cheng-deb-bao">2、使用dpkg打包生成deb包</span><a href="#2-shi-yong-dpkg-da-bao-sheng-cheng-deb-bao" class="header-anchor">#</a></h2><p>以上步骤完成之后，即可使用dpkg命令生成deb包，如果没有复杂的要求(开机加载启动项，卸载时删除等)，即可通过以下步骤实现deb包打包：</p>
+<ul>
+<li>新建app_deb文件夹（其它文件名字也可以），在该目录下创建软件需要安装的路径，<code>eg：/usr/local/src/AppName</code>。</li>
+<li>将1步骤中文件拷贝到新创建的目录（<code>/usr/local/src/AppName</code>）下。</li>
+<li><p>在app_deb文件夹下创建DEBIAN文件夹（文件名必须为DEBIAN），并在其中创建console文件。</p>
+  <figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">package: AppName </span><br><span class="line">Version: 1.0.1</span><br><span class="line">Architecture: i386</span><br><span class="line">Depends:</span><br><span class="line">Installed-Size: 512</span><br><span class="line">Maintainer: xxx</span><br><span class="line">Description: AppName-deb</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在app_deb目录下，执行 <code>dpkg -b . AppName.deb</code>命令，即可生成deb包。</p>
+</li>
+</ul>
+<p>如果需要设置开机加载脚本等，就需要额外编写脚本放在DEBIAN目录下，DEBIAN下的脚本有以下几种：</p>
+<ul>
+<li>preinst<br>Debian软件包(“.deb”)解压前执行的脚本, 为正在被升级的包停止相关服务,直到升级或安装完成。 (成功后执行 ‘postinst’ 脚本)。</li>
+<li>postinst<br>主要完成软件包(“.deb”)安装完成后所需的配置工作. 通常, postinst 脚本要求用户输入, 和/或警告用户如果接受默认值, 应该记得按要求返回重新配置这个软件。 一个软件包安装或升级完成后，postinst 脚本驱动命令, 启动或重起相应的服务。</li>
+<li>prerm<br>停止一个软件包的相关进程, 要卸载软件包的相关文件前执行。</li>
+<li>postrm<br>修改相关文件或连接, 或卸载软件包所创建的文件。</li>
+</ul>
+<p>打包deb文件成功之后，安装deb有2种方式：</p>
+<ol>
+<li>直接双击deb文件安装</li>
+<li>使用<code>sudo dpkg -i AppName.deb</code>进行安装<br>即可查看打的deb包安装是否正确。</li>
+</ol>
+
       
 
       
@@ -445,15 +472,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">linux,qt</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">markdown,blog,传图</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">嵌入式,STM32,I2C Slave</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">linux,qt</a>
               </li>
             
             <div class="clearfix"></div>
