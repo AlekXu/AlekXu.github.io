@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>软件模拟I2C从机 | AlekXu的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="[TOC] 工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！">
+  <meta name="description" content="1. I2C总线介绍 2. I2C硬件接口 3. I2C协议介绍 4. I2C从机软件实现思路 5. I2C从机代码     工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！">
 <meta name="keywords" content="嵌入式,STM32,I2C Slave">
 <meta property="og:type" content="article">
 <meta property="og:title" content="软件模拟I2C从机">
 <meta property="og:url" content="http://yoursite.com/2018/09/12/软件模拟I2C从机/index.html">
 <meta property="og:site_name" content="AlekXu的博客">
-<meta property="og:description" content="[TOC] 工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！">
+<meta property="og:description" content="1. I2C总线介绍 2. I2C硬件接口 3. I2C协议介绍 4. I2C从机软件实现思路 5. I2C从机代码     工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/iic_1.jpg?raw=true">
 <meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_2.jpg?raw=true">
@@ -22,10 +22,10 @@
 <meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_4.jpg?raw=true">
 <meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_6.jpg?raw=true">
 <meta property="og:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/i2c_7.jpg?raw=true">
-<meta property="og:updated_time" content="2020-12-22T06:59:41.222Z">
+<meta property="og:updated_time" content="2020-12-22T07:10:56.138Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="软件模拟I2C从机">
-<meta name="twitter:description" content="[TOC] 工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！">
+<meta name="twitter:description" content="1. I2C总线介绍 2. I2C硬件接口 3. I2C协议介绍 4. I2C从机软件实现思路 5. I2C从机代码     工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！">
 <meta name="twitter:image" content="https://github.com/AlekXu/AlekXu.github.io/blob/master/assets/img/iic_1.jpg?raw=true">
   
     <link rel="alternative" href="/atom.xml" title="AlekXu的博客" type="application/atom+xml">
@@ -186,7 +186,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>[TOC]</p>
+        <div class="toc">
+
+<!-- toc -->
+<ul>
+<li><a href="#1-i2c-zong-xian-jie-shao">1. I2C总线介绍</a></li>
+<li><a href="#2-i2c-ying-jian-jie-kou">2. I2C硬件接口</a></li>
+<li><a href="#3-i2c-xie-yi-jie-shao">3. I2C协议介绍</a></li>
+<li><a href="#4-i2c-cong-ji-ruan-jian-shi-xian-si-lu">4. I2C从机软件实现思路</a></li>
+<li><a href="#5-i2c-cong-ji-dai-ma">5. I2C从机代码</a></li>
+</ul>
+<!-- tocstop -->
+</div>
+
 <p>工作的第一个项目，就是关于i2c协议的，之前在学校的时候，用过软件模拟i2c，但是都是模拟i2c主机的，没有接触过模拟从机的。想着应该不会太难吧，不就是操作2根线吗？但是在实际的操作中却让我大吃苦头。下面介绍一下具体的过程吧！</p>
 <a id="more"></a>
 <h2><span id="1-i2c-zong-xian-jie-shao">1. I2C总线介绍</span><a href="#1-i2c-zong-xian-jie-shao" class="header-anchor">#</a></h2><p>在消费者电子电讯和工业电子中看上去不相关的设计里经常有很多相似的地方例如几乎每个系统都包括：</p>
@@ -482,10 +494,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">qt</a>
-              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">blog,hexo,github</a>
